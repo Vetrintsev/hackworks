@@ -1,6 +1,9 @@
 
 # coding: utf-8
 
+# ### Поиск повторных событий в массиве событий
+# Ключевая функция **convert_to_repeats**
+
 # In[2]:
 
 
@@ -198,7 +201,7 @@ def combine_formats(book, *fmts):
 def get_xlsxwiter_formats(df, workbook):
     
     fdatetime = workbook.add_format({'num_format':'dd.mm.yyyy HH:MM', 'align':'left', 'border':4})
-    ffloat = workbook.add_format({'num_format':'0,0', 'align':'right', 'border':4})
+    ffloat = workbook.add_format({'num_format':'0.0', 'align':'right', 'border':4})
     fint = workbook.add_format({'num_format':'0', 'align':'right', 'border':4})
     fdef = workbook.add_format()
     
@@ -377,6 +380,7 @@ def convert_to_repeats(
         
         for row_index, data in enumerate(g_df.itertuples(False), 1):
             for col_index, value in enumerate(data):
+                if (value != value) or (value == np.inf): value = None
                 sheet.write(row_index, col_index, value, formats[col_index])
 
         writer.save()
